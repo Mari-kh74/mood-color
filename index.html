@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Color - Express Your Feelings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.8s ease-in-out;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .emoji-display {
+            font-size: 6em;
+            margin: 30px 0;
+            animation: bounce 0.6s ease-out;
+            display: block;
+            min-height: 100px;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: scale(0.3) translateY(-20px);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .message {
+            color: #555;
+            font-size: 1.3em;
+            margin: 20px 0 40px 0;
+            min-height: 30px;
+            font-weight: 500;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .mood-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .mood-btn {
+            padding: 20px 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 2.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f0f0f0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .mood-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .mood-btn.active {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transform: scale(1.1);
+        }
+
+        .mood-label {
+            display: block;
+            font-size: 0.8em;
+            color: #333;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* Background colors for each mood */
+        body.happy {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+
+        body.calm {
+            background: linear-gradient(135deg, #87CEEB, #6BB6D6);
+        }
+
+        body.tired {
+            background: linear-gradient(135deg, #9370DB, #B0C4DE);
+        }
+
+        body.excited {
+            background: linear-gradient(135deg, #FF69B4, #FF1493);
+        }
+
+        body.sad {
+            background: linear-gradient(135deg, #4169E1, #1E90FF);
+        }
+
+        body.confident {
+            background: linear-gradient(135deg, #FF6347, #FF4500);
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .emoji-display {
+                font-size: 4.5em;
+            }
+
+            .message {
+                font-size: 1.1em;
+            }
+
+            .mood-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .mood-btn {
+                padding: 15px 10px;
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Mood Color</h1>
+        <p class="subtitle">How are you feeling today?</p>
+        
+        <span class="emoji-display" id="emoji">😊</span>
+        <p class="message" id="message">Select a mood to get started!</p>
+        
+        <div class="mood-buttons">
+            <button class="mood-btn" data-mood="happy" data-emoji="😊" data-message="You're spreading joy everywhere!">
+                <span>😊</span>
+                <span class="mood-label">Happy</span>
+            </button>
+            <button class="mood-btn" data-mood="calm" data-emoji="😌" data-message="Peace and serenity surround you.">
+                <span>😌</span>
+                <span class="mood-label">Calm</span>
+            </button>
+            <button class="mood-btn" data-mood="tired" data-emoji="😴" data-message="Rest well, you deserve it!">
+                <span>😴</span>
+                <span class="mood-label">Tired</span>
+            </button>
+            <button class="mood-btn" data-mood="excited" data-emoji="🤩" data-message="Your energy is contagious!">
+                <span>🤩</span>
+                <span class="mood-label">Excited</span>
+            </button>
+            <button class="mood-btn" data-mood="sad" data-emoji="😢" data-message="It's okay to feel this way. You'll get through it!">
+                <span>😢</span>
+                <span class="mood-label">Sad</span>
+            </button>
+            <button class="mood-btn" data-mood="confident" data-emoji="💪" data-message="You can achieve anything you set your mind to!">
+                <span>💪</span>
+                <span class="mood-label">Confident</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Get all mood buttons
+        const moodButtons = document.querySelectorAll('.mood-btn');
+        const emojiDisplay = document.getElementById('emoji');
+        const messageDisplay = document.getElementById('message');
+        const body = document.body;
+
+        // Add click event listener to each button
+        moodButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Get data from the clicked button
+                const mood = this.getAttribute('data-mood');
+                const emoji = this.getAttribute('data-emoji');
+                const message = this.getAttribute('data-message');
+
+                // Remove active class from all buttons
+                moodButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Add active class to clicked button
+                this.classList.add('active');
+
+                // Remove all mood classes from body
+                body.classList.remove('happy', 'calm', 'tired', 'excited', 'sad', 'confident');
+
+                // Add the new mood class to body
+                body.classList.add(mood);
+
+                // Update emoji and message with animation
+                emojiDisplay.textContent = emoji;
+                messageDisplay.textContent = message;
+            });
+        });
+    </script>
+</body>
+</html>
